@@ -1,4 +1,4 @@
-openai==1.25.0p
+openai==1.25.0
 langchain==0.1.17
 langchain-openai==0.1.5
 faiss-cpu==1.8.0
