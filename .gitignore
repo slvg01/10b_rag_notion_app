@@ -1,1 +1,4 @@
 config.ini
+.streamlit/
+notion_content
+venv_rag1/
