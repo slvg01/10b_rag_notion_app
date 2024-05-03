@@ -1,9 +1,7 @@
 import time
 import streamlit as st
-from utils import load_chain
-import openai
+from chain import load_chain
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Custom image for the app icon and the assistant's avatar
 company_logo = 'https://www.app.nl/wp-content/uploads/2019/01/Blendle.png'
@@ -12,36 +10,31 @@ company_logo = 'https://www.app.nl/wp-content/uploads/2019/01/Blendle.png'
 st.set_page_config(
     page_title="Your Notion Chatbot",
     page_icon=company_logo, 
-    
 )
-#&nbsp;&nbsp
-# put a title on the page
+
+# put a title on the page and line return after
 st.markdown("""
 <h1 style="color: #fc6353;">Welcome to Blendle knowledge base</h1>
 <h1 style="color: #fc6353;">Happy to see you again colleague ❤</h1>
-
 """, unsafe_allow_html=True)
 
-for _ in range(4):
+for _ in range(3):
    st.markdown("""
     """)
    
    
 # Initialize LLM chain
-# llm = OpenAI(client=OpenAI, streaming=True, callbacks=[StreamlitCallbackHandler(message_placeholder)])
 chain = load_chain()
 
-# Initialize chat history
 
+# Initialize chat history
 if 'messages' not in st.session_state:
     # Start with first message from assistant
     st.session_state['messages'] = [{"role": "assistant",
                                   "content": "Hi, I am Blendle's smart AI. Ask me anything about the company policies"}]
 
 
-# Display chat messages from history on app rerun
-# Custom avatar for the assistant, default avatar for user
-
+# Display chat messages from history on app rerun and put a custom avatar for the assistant, default avatar for user
 for message in st.session_state.messages:
     if message["role"] == 'assistant':
         with st.chat_message(message["role"], avatar=company_logo):
@@ -50,7 +43,9 @@ for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-# Chat logic
+
+# Chat logical sequence
+#add a base invite message in the chat box 
 if query := st.chat_input("Ask me anything"):
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": query})
@@ -60,17 +55,15 @@ if query := st.chat_input("Ask me anything"):
 
     with st.chat_message("assistant",avatar=company_logo):
         message_placeholder = st.empty()
-        # Send user's question to our chain
+        # Send user's question to the chain
         result = chain.invoke({"question": query})
-        # result = chain.run(input=query)
-        # result = st.session_state['chain']({"question": query})
         response = result['answer']
         full_response = ""
 
         # Simulate stream of response with milliseconds delay
         for chunk in response.split():
             full_response += chunk + " "
-            time.sleep(0.05)
+            time.sleep(0.12)
             # Add a blinking cursor to simulate typing
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
