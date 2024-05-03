@@ -17,8 +17,8 @@ st.set_page_config(
 #&nbsp;&nbsp
 # put a title on the page
 st.markdown("""
-
-<h1 style="text-align: center;color: darkorange;">Happy to see you again ! ❤</h1>
+<h1 style="color: purple;">Welcome to Blendle knowledge base</h1>
+<h1 style="color: purple;">Happy to see you again colleague ❤</h1>
 
 """, unsafe_allow_html=True)
 
@@ -36,7 +36,7 @@ chain = load_chain()
 if 'messages' not in st.session_state:
     # Start with first message from assistant
     st.session_state['messages'] = [{"role": "assistant",
-                                  "content": "Hi Colleague! I am Blendles's smart AI. How can I help you today?"}]
+                                  "content": "Hi, I am Blendle's smart AI. Ask me anything about the company policies"}]
 
 
 # Display chat messages from history on app rerun
