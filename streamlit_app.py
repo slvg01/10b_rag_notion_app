@@ -17,8 +17,8 @@ st.set_page_config(
 #&nbsp;&nbsp
 # put a title on the page
 st.markdown("""
-<h1 style="color: purple;">Welcome to Blendle knowledge base</h1>
-<h1 style="color: purple;">Happy to see you again colleague ❤</h1>
+<h1 style="color: #fc6353;">Welcome to Blendle knowledge base</h1>
+<h1 style="color: #fc6353;">Happy to see you again colleague ❤</h1>
 
 """, unsafe_allow_html=True)
 
