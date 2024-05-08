@@ -9,7 +9,7 @@ company_logo = 'https://www.app.nl/wp-content/uploads/2019/01/Blendle.png'
 
 # Configure streamlit page
 st.set_page_config(
-    page_title="Company Knowladge Base Chatbot",
+    page_title="Company Knowledge Base Chatbot",
     page_icon=company_logo, 
 )
 

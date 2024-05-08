@@ -5,7 +5,7 @@
 - create a online Retrieved Augmented Generation `RAG chat bot` to answer questions regarding a company internal procedures set
 <p align="center"> GET IN AND TRY  :  </p>
     
-<p align="center"><a href="https://anotion.streamlit.app/"><img src="pics/enter.png" height="75" /></a> </p>
+<p align="center"><a href="anotion.streamlit.app/"><img src="pics/enter.png" height="75" /></a> </p>
 
 
 
