@@ -8,14 +8,14 @@ company_logo = 'https://www.app.nl/wp-content/uploads/2019/01/Blendle.png'
 
 # Configure streamlit page
 st.set_page_config(
-    page_title="Your Notion Chatbot",
+    page_title="Company Knowladge Base Chatbot",
     page_icon=company_logo, 
 )
 
 # put a title on the page and line return after
 st.markdown("""
-<h1 style="color: #fc6353;">Welcome to Blendle knowledge base</h1>
-<h1 style="color: #fc6353;">Happy to see you again colleague ❤</h1>
+<h1 style="color: #fc6353;">Company knowledge base search bot</h1>
+<h1 style="color: #fc6353;">Happy to see you again Colleague ❤</h1>
 """, unsafe_allow_html=True)
 
 for _ in range(3):
@@ -31,7 +31,7 @@ chain = load_chain()
 if 'messages' not in st.session_state:
     # Start with first message from assistant
     st.session_state['messages'] = [{"role": "assistant",
-                                  "content": "Hi, I am Blendle's smart AI. Ask me anything about the company policies"}]
+                                  "content": "Hi, I am the Company's smart AI. Ask me anything about the company policies"}]
 
 
 # Display chat messages from history on app rerun and put a custom avatar for the assistant, default avatar for user
