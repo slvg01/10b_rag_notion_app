@@ -14,13 +14,6 @@ st.set_page_config(
 )
 
 
-# def local_css(file_name):
-#     with open(file_name) as f:
-#         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-
-# local_css("style.css")
-
-
 
 # Function to convert image to base64
 def image_to_base64(image_path):
@@ -37,7 +30,7 @@ def add_bg_from_base64(base64_str):
          }}
          </style>
          """, unsafe_allow_html=True)
-    
+
 # Image path
 image_path = 'pics/glasses.jpg'
 

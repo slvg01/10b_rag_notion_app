@@ -26,7 +26,7 @@ To install the app scripts , follow these steps:
     - `git clone https://github.com/slvg01/10b_rag_notion_app.git`
     
 - Get into the project folder: 
-    - `cd intop 10b_rag_notion_app`
+    - `cd into 10b_rag_notion_app`
     
 - Ensure that you have the required dependencies installed by executing:
     - `pip install -r requirements.txt`
