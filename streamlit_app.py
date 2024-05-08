@@ -1,6 +1,7 @@
 import time
 import streamlit as st
 from chain import load_chain
+import base64
 
 
 # Custom image for the app icon and the assistant's avatar
@@ -11,6 +12,45 @@ st.set_page_config(
     page_title="Company Knowladge Base Chatbot",
     page_icon=company_logo, 
 )
+
+
+# def local_css(file_name):
+#     with open(file_name) as f:
+#         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# local_css("style.css")
+
+
+
+# Function to convert image to base64
+def image_to_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode("utf-8")
+
+# Function to add background image using base64
+def add_bg_from_base64(base64_str):
+    st.markdown(f"""
+         <style>
+         .stApp {{
+             background-image: url(data:image/jpg;base64,{base64_str});
+             background-size: cover;
+         }}
+         </style>
+         """, unsafe_allow_html=True)
+    
+# Image path
+image_path = 'pics/glasses.jpg'
+
+# Convert image to base64
+base64_img = image_to_base64(image_path)
+
+# Set background image
+add_bg_from_base64(base64_img)
+
+
+
+
+
 
 # put a title on the page and line return after
 st.markdown("""
