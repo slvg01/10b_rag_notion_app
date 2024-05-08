@@ -3,14 +3,10 @@
 
 ## 🎯 Objectives:
 - create a online Retrieved Augmented Generation `RAG chat bot` to answer questions regarding a company internal procedures set
-<p align="center"> GET IN AND TRY  :  </p>
 
 
-
-
-<p align="center">[set of procedure](https://blendle.notion.site/Blendle-s-Employee-Handbook-7692ffe24f07450785f093b94bbe1a09)<a href="https://anotion.streamlit.app"><img src="pics/enter.png" height="75" /></a> </p>
-
-
+<p align="center"> [PRESS IN AND TRY IT](https://anotion.streamlit.app/) </p>
+    
 
 - Use Notion as the source of the procedure corpus and as well as the ultimate repository of the chat bot. 
 
