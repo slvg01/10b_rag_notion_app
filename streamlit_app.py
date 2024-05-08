@@ -14,7 +14,7 @@ st.set_page_config(
 
 # put a title on the page and line return after
 st.markdown("""
-<h1 style="color: #fc6353;">Company knowledge base search bot</h1>
+<h1 style="color: #fc6353;">Company procedures search bot</h1>
 <h1 style="color: #fc6353;">Happy to see you again Colleague ❤</h1>
 """, unsafe_allow_html=True)
 
