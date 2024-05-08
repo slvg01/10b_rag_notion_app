@@ -1,8 +1,0 @@
-body {
-    background-image: url('pics/glasses.png'); 
-    background-size: cover; /* Cover the entire background */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Do not repeat the background image */
-    font-family: Arial, sans-serif; 
-    color: white;
-}

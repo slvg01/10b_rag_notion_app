@@ -13,8 +13,6 @@ st.set_page_config(
     page_icon=company_logo, 
 )
 
-
-
 # Function to convert image to base64
 def image_to_base64(image_path):
     with open(image_path, "rb") as img_file:
@@ -39,10 +37,6 @@ base64_img = image_to_base64(image_path)
 
 # Set background image
 add_bg_from_base64(base64_img)
-
-
-
-
 
 
 # put a title on the page and line return after
