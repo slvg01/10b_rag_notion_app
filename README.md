@@ -5,7 +5,9 @@
 - create a online Retrieved Augmented Generation `RAG chat bot` to answer questions regarding a company internal procedures set
 <p align="center"> GET IN AND TRY  :  </p>
     
-<p align="center"><a href="https://anotion.streamlit.app/"><img src="pics/enter.png" height="50" /></a> </p>
+<p align="center"><a href="https://anotion.streamlit.app/"><img src="pics/enter.png" height="75" /></a> </p>
+
+
 
 - Use Notion as the source of the procedure corpus and as well as the ultimate repository of the chat bot. 
 
