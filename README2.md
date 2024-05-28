@@ -40,7 +40,7 @@ To install the app scripts , follow these steps:
 
 
 ## 👟 Running
-- you may just click the `TRY THE APP` link in the above Objectives paragraph to try the app online, 
+- you may just click the `TRY THE APP` link in the above Objectives pragraph to try the app online,
 
 - Or if you are trying to duplicate or create your own app based on your own set of procedures : 
     - once the above installation is done , then run the ingest_and_vectorized.py script  to create the database index
