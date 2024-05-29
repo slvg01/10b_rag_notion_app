@@ -19,6 +19,7 @@ def load_chain():
 
     # Load OpenAI embedding model
     embeddings = OpenAIEmbeddings()
+    
     # Load OpenAI chat model
     llm = ChatOpenAI(temperature=0)
 
