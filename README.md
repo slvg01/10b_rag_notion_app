@@ -2,7 +2,7 @@
 # RAG Notion App Project: 
 
 ## 🎯 Objectives:
-- create a online Retrieved Augmented Generation `RAG chat bot` app to answer questions regarding surrealism and especially belgium surrealism:
+- create a online Retrieved Augmented Generation `RAG chat bot` app to answer questions regarding a company corpus of procedure in a natural way:
    [TRY THE APP !](https://anotion.streamlit.app/)
     
     
@@ -50,6 +50,8 @@ To install the app scripts , follow these steps:
 
 ## Credit 
 
+To ***`Blendle Company`*** for having its procedure corpus available publically in notion and well framed    
 To ***`logan Vendrix`*** and his [Article](https://blog.streamlit.io/build-your-own-notion-chatbot/) that made more 😁 than pointing me in the right ==direction== to do this RAG project
+
 
 
