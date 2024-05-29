@@ -19,7 +19,6 @@ def load_chain():
 
     # Load OpenAI embedding model
     embeddings = OpenAIEmbeddings()
-
     # Load OpenAI chat model
     llm = ChatOpenAI(temperature=0)
 
@@ -28,14 +27,15 @@ def load_chain():
     retriever = vector_store.as_retriever(search_kwargs={"k": 3})
 
     # Create a memory feature for the chat 
-    memory = ConversationBufferWindowMemory(k=5, memory_key="chat_history")
+    memory = ConversationBufferWindowMemory(k=5, memory_key="chat_history",  output_key="answer")
 
     # Create system prompt
     template = """
     You are an AI assistant for answering questions about the Company Employee Handbook given to you.
     Below You are given contextual information and a question,  provide a conversational answer.
     Do not build or make up an answer if you do not have supporting information
-    If you don't know the answer, just say 'i am very sorry, i do not have any information on that topic yet, please ask your line manager or HR officer directly. 
+    If you don't know the answer, just say 'I am very sorry, i do not have any information on that topic yet, please ask your line manager or HR officer directly. 
+    If you don't know the answer, do not publish the source documents.
     If the question is not about the Company Employee Handbook, politely inform them that you are tuned to only answer questions about the Company Employee Handbook.
 
     {context}
@@ -47,7 +47,8 @@ def load_chain():
                                                   retriever=retriever,
                                                   memory=memory,
                                                   get_chat_history=lambda h: h,
-                                                  verbose=True)
+                                                  verbose=True,
+                                                  return_source_documents=True)
 
     # Add system prompt to chain
     # Can only add it at the end for ConversationalRetrievalChain
@@ -55,3 +56,28 @@ def load_chain():
     chain.combine_docs_chain.llm_chain.prompt.messages[0] = SystemMessagePromptTemplate(prompt=QA_CHAIN_PROMPT)
 
     return chain
+
+no_info_message = 'I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly.'
+
+def sources_format(answer, source_documents):
+    """
+    Function to format the sources.
+    """
+    if answer.strip().lower() == no_info_message.strip().lower():
+        return ""
+    formatted_sources = "\n\nSources:\n\n" + "\n\n".join([f"{i+1} - {doc.metadata.get('source')}\n" for i, doc in enumerate(source_documents)])
+    return f"\n{formatted_sources}"
+
+
+# def format_answer_with_sources(answer, source_documents):
+#     """
+#     Function to format the answer with sources.
+#     """
+#     no_info_message = 'I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly.'
+#     if answer == no_info_message:
+#         return no_info_message
+#     else:
+#         formatted_sources = "\n\nSources:\n\n" + "\n\n".join([f"{i+1} - {doc.metadata.get('source')}\n" for i, doc in enumerate(source_documents)])
+#         return f"{answer}\n\n{formatted_sources}"
+
+

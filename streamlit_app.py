@@ -1,6 +1,6 @@
 import time
 import streamlit as st
-from chain import load_chain
+from chain import load_chain, sources_format
 import base64
 
 
@@ -51,6 +51,7 @@ for _ in range(3):
    
    
 # Initialize LLM chain
+no_info_message ='I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly.'
 chain = load_chain()
 
 
@@ -76,24 +77,47 @@ for message in st.session_state.messages:
 if query := st.chat_input("Ask me anything"):
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": query})
+    
     # Display user message in chat message container
     with st.chat_message("user"):
         st.markdown(query)
 
-    with st.chat_message("assistant",avatar=company_logo):
+    with st.chat_message("assistant", avatar=company_logo):
         message_placeholder = st.empty()
         # Send user's question to the chain
         result = chain.invoke({"question": query})
-        response = result['answer']
-        full_response = ""
+        response = result['answer'].strip()
+        source_documents = result['source_documents']
 
-        # Simulate stream of response with milliseconds delay
-        for chunk in response.split():
-            full_response += chunk + " "
-            time.sleep(0.12)
-            # Add a blinking cursor to simulate typing
-            message_placeholder.markdown(full_response + "▌")
-        message_placeholder.markdown(full_response)
+        if response.lower() == no_info_message.strip().lower():
+            # Display the no info message without sources and simulate stream of response with milliseconds delay
+            full_response = ""
+            for chunk in response.split():
+                full_response += chunk + " "
+                time.sleep(0.05)
+                # Add a blinking cursor to simulate typing
+                message_placeholder.markdown(full_response + "▌")
+            message_placeholder.markdown(full_response)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+        else:
+            # Format the answer with sources and simulate stream of response with milliseconds delay
+            sources = sources_format(response, source_documents)
+            full_response = ""
+            for chunk in response.split():
+                full_response += chunk + " "
+                time.sleep(0.05)
+                # Add a blinking cursor to simulate typing
+                message_placeholder.markdown(full_response + "▌")
+            message_placeholder.markdown(full_response)
+                
+            if sources:  # Only display sources if they exist
+                
+                st.markdown(sources)
+                st.session_state.messages.append({"role": "assistant", "content": response})  # Add response to session state
+                st.session_state.messages.append({"role": "assistant", "content": sources})  # Add sources to session state
+            else:
+                st.session_state.messages.append({"role": "assistant", "content": response})  # If no sources, only add response    
+       
 
-    # Add assistant message to chat history
-    st.session_state.messages.append({"role": "assistant", "content": response})
+
+    
