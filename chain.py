@@ -70,14 +70,12 @@ def load_chain():
 
 
 no_info_message1 = "I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly."
-no_info_message2 = (
-    "I am very sorry, i am tuned to only answer questions about the Company procedures."
-)
+no_info_message2 = "I am very sorry, i am tuned to only answer questions about the Company procedures."
 
 
 def sources_format(answer, source_documents):
     """
-    Function to format the sources.
+    Function to format the sources
     """
     if answer.strip().lower() == no_info_message1.strip().lower():
         return ""
