@@ -29,13 +29,9 @@ def add_bg_from_base64(base64_str):
          </style>
          """, unsafe_allow_html=True)
 
-# Image path
+# Set background Image
 image_path = 'pics/glasses.jpg'
-
-# Convert image to base64
 base64_img = image_to_base64(image_path)
-
-# Set background image
 add_bg_from_base64(base64_img)
 
 
@@ -51,7 +47,8 @@ for _ in range(3):
    
    
 # Initialize LLM chain
-no_info_message ='I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly.'
+no_info_message1 ='I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly.'
+no_info_message2 = 'I am very sorry, i am tuned to only answer questions about the Company procedures.'
 chain = load_chain()
 
 
@@ -72,7 +69,7 @@ for message in st.session_state.messages:
             st.markdown(message["content"])
 
 
-# Chat logical sequence
+# Createn the Chat logical sequence
 #add a base invite message in the chat box 
 if query := st.chat_input("Ask me anything"):
     # Add user message to chat history
@@ -81,7 +78,8 @@ if query := st.chat_input("Ask me anything"):
     # Display user message in chat message container
     with st.chat_message("user"):
         st.markdown(query)
-
+    
+    # Run the chain on the query and load the answser and sources to the chat message container
     with st.chat_message("assistant", avatar=company_logo):
         message_placeholder = st.empty()
         # Send user's question to the chain
@@ -89,8 +87,8 @@ if query := st.chat_input("Ask me anything"):
         response = result['answer'].strip()
         source_documents = result['source_documents']
 
-        if response.lower() == no_info_message.strip().lower():
-            # Display the no info message without sources and simulate stream of response with milliseconds delay
+        if response.lower() == no_info_message1.strip().lower():
+            # Display the no info message 1 without source and simulate stream of response with milliseconds delay
             full_response = ""
             for chunk in response.split():
                 full_response += chunk + " "
@@ -99,8 +97,20 @@ if query := st.chat_input("Ask me anything"):
                 message_placeholder.markdown(full_response + "▌")
             message_placeholder.markdown(full_response)
             st.session_state.messages.append({"role": "assistant", "content": response})
+        
+        elif response.lower() == no_info_message2.strip().lower():
+            # Display the no info message 2 without source and simulate stream of response with milliseconds delay
+            full_response = ""
+            for chunk in response.split():
+                full_response += chunk + " "
+                time.sleep(0.05)
+                # Add a blinking cursor to simulate typing
+                message_placeholder.markdown(full_response + "▌")
+            message_placeholder.markdown(full_response)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+        
         else:
-            # Format the answer with sources and simulate stream of response with milliseconds delay
+            # Display the answer with sources and simulate stream of response with milliseconds delay
             sources = sources_format(response, source_documents)
             full_response = ""
             for chunk in response.split():
@@ -113,10 +123,10 @@ if query := st.chat_input("Ask me anything"):
             if sources:  # Only display sources if they exist
                 
                 st.markdown(sources)
-                st.session_state.messages.append({"role": "assistant", "content": response})  # Add response to session state
-                st.session_state.messages.append({"role": "assistant", "content": sources})  # Add sources to session state
+                st.session_state.messages.append({"role": "assistant", "content": response})  
+                st.session_state.messages.append({"role": "assistant", "content": sources})  
             else:
-                st.session_state.messages.append({"role": "assistant", "content": response})  # If no sources, only add response    
+                st.session_state.messages.append({"role": "assistant", "content": response})   
        
 
 

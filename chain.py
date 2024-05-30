@@ -25,7 +25,7 @@ def load_chain():
 
     # Load the local vector database as a retriever
     vector_store = FAISS.load_local("vector_db", embeddings, allow_dangerous_deserialization=True)
-    retriever = vector_store.as_retriever(search_kwargs={"k": 3})
+    retriever = vector_store.as_retriever(search_kwargs={"k": 5})
 
     # Create a memory feature for the chat 
     memory = ConversationBufferWindowMemory(k=5, memory_key="chat_history",  output_key="answer")
@@ -37,7 +37,7 @@ def load_chain():
     Do not build or make up an answer if you do not have supporting information
     If you don't know the answer, just say 'I am very sorry, i do not have any information on that topic yet, please ask your line manager or HR officer directly. 
     If you don't know the answer, do not publish the source documents.
-    If the question is not about the Company Employee Handbook, politely inform them that you are tuned to only answer questions about the Company Employee Handbook.
+    If the question is not about the Company Employee Handbook, just say : I am very sorry, i am tuned to only answer questions about the Company procedures.
 
     {context}
     Question: {question}
@@ -58,27 +58,29 @@ def load_chain():
 
     return chain
 
-no_info_message = 'I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly.'
+no_info_message1 = 'I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly.'
+no_info_message2 = 'I am very sorry, i am tuned to only answer questions about the Company procedures.'
+
+
+
 
 def sources_format(answer, source_documents):
     """
     Function to format the sources.
     """
-    if answer.strip().lower() == no_info_message.strip().lower():
+    if answer.strip().lower() == no_info_message1.strip().lower():
         return ""
-    formatted_sources = "\n\nSources:\n\n" + "\n\n".join([f"{i+1} - {doc.metadata.get('source')}\n" for i, doc in enumerate(source_documents)])
+    elif answer.strip().lower() == no_info_message2.strip().lower():
+        return ""
+    
+    # Use a set to store unique sources
+    unique_sources = list(set(doc.metadata.get('source') for doc in source_documents))
+    unique_sources = unique_sources[:3]
+    
+    formatted_sources = "\n\nTop 3 Sources:\n\n" + "\n\n".join([f"{i+1} - {source}\n" for i, source in enumerate(unique_sources)])
     return f"\n{formatted_sources}"
+    
 
 
-# def format_answer_with_sources(answer, source_documents):
-#     """
-#     Function to format the answer with sources.
-#     """
-#     no_info_message = 'I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly.'
-#     if answer == no_info_message:
-#         return no_info_message
-#     else:
-#         formatted_sources = "\n\nSources:\n\n" + "\n\n".join([f"{i+1} - {doc.metadata.get('source')}\n" for i, doc in enumerate(source_documents)])
-#         return f"{answer}\n\n{formatted_sources}"
 
 
