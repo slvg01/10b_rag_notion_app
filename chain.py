@@ -19,16 +19,20 @@ def load_chain():
 
     # Load OpenAI embedding model
     embeddings = OpenAIEmbeddings()
-    
+
     # Load OpenAI chat model
     llm = ChatOpenAI(temperature=0)
 
     # Load the local vector database as a retriever
-    vector_store = FAISS.load_local("vector_db", embeddings, allow_dangerous_deserialization=True)
+    vector_store = FAISS.load_local(
+        "vector_db", embeddings, allow_dangerous_deserialization=True
+    )
     retriever = vector_store.as_retriever(search_kwargs={"k": 5})
 
-    # Create a memory feature for the chat 
-    memory = ConversationBufferWindowMemory(k=5, memory_key="chat_history",  output_key="answer")
+    # Create a memory feature for the chat
+    memory = ConversationBufferWindowMemory(
+        k=5, memory_key="chat_history", output_key="answer"
+    )
 
     # Create system prompt
     template = """
@@ -44,24 +48,31 @@ def load_chain():
     Answer:"""
 
     # Create the Conversational Chain
-    chain = ConversationalRetrievalChain.from_llm(llm=llm,
-                                                  retriever=retriever,
-                                                  memory=memory,
-                                                  get_chat_history=lambda h: h,
-                                                  verbose=True,
-                                                  return_source_documents=True)
+    chain = ConversationalRetrievalChain.from_llm(
+        llm=llm,
+        retriever=retriever,
+        memory=memory,
+        get_chat_history=lambda h: h,
+        verbose=True,
+        return_source_documents=True,
+    )
 
     # Add system prompt to chain
     # Can only add it at the end for ConversationalRetrievalChain
-    QA_CHAIN_PROMPT = PromptTemplate(input_variables=["context", "question"], template=template)
-    chain.combine_docs_chain.llm_chain.prompt.messages[0] = SystemMessagePromptTemplate(prompt=QA_CHAIN_PROMPT)
+    QA_CHAIN_PROMPT = PromptTemplate(
+        input_variables=["context", "question"], template=template
+    )
+    chain.combine_docs_chain.llm_chain.prompt.messages[0] = SystemMessagePromptTemplate(
+        prompt=QA_CHAIN_PROMPT
+    )
 
     return chain
 
-no_info_message1 = 'I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly.'
-no_info_message2 = 'I am very sorry, i am tuned to only answer questions about the Company procedures.'
 
-
+no_info_message1 = "I am very sorry, I do not have any information on that topic yet, please ask your line manager or HR officer directly."
+no_info_message2 = (
+    "I am very sorry, i am tuned to only answer questions about the Company procedures."
+)
 
 
 def sources_format(answer, source_documents):
@@ -72,15 +83,12 @@ def sources_format(answer, source_documents):
         return ""
     elif answer.strip().lower() == no_info_message2.strip().lower():
         return ""
-    
+
     # Use a set to store unique sources
-    unique_sources = list(set(doc.metadata.get('source') for doc in source_documents))
+    unique_sources = list(set(doc.metadata.get("source") for doc in source_documents))
     unique_sources = unique_sources[:3]
-    
-    formatted_sources = "\n\nTop 3 Sources:\n\n" + "\n\n".join([f"{i+1} - {source}\n" for i, source in enumerate(unique_sources)])
+
+    formatted_sources = "\n\nTop 3 Sources:\n\n" + "\n\n".join(
+        [f"{i+1} - {source}\n" for i, source in enumerate(unique_sources)]
+    )
     return f"\n{formatted_sources}"
-    
-
-
-
-
