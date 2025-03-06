@@ -98,9 +98,14 @@ if query := st.chat_input("Ask me anything"):
     with st.chat_message("assistant", avatar=company_logo):
         message_placeholder = st.empty()
         # Send user's question to the chain
-        result = chain.invoke({"question": query})
-        response = result["answer"].strip()
-        source_documents = result["source_documents"]
+        try: 
+            result = chain.invoke({"question": query})
+            response = result["answer"].strip()
+            source_documents = result["source_documents"]
+        except Exception as e:
+            st.error(f"Error during query processing: {e}")
+            response = "Sorry, an error occurred."
+            
 
         if response.lower() == no_info_message1.strip().lower():
             # Display the no info message 1 without source and simulate stream of response with milliseconds delay
