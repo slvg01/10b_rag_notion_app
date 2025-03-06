@@ -10,7 +10,7 @@ from langchain_community.vectorstores import FAISS
 
 # Load generative key based on secrets file
 openai.api_key = st.secrets["OPENAI_API_KEY"]
-print("API Key:", st.secrets["OPENAI_API_KEY"])
+
 
 # Load the Notion content
 loader = NotionDirectoryLoader("notion_content")
